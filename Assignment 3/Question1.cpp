@@ -1,86 +1,76 @@
 /*Develop a menu driven program demonstrating the following operations on a Stack using array:
 (i) push(), (ii) pop(), (iii) isEmpty(), (iv) isFull(), (v) display(), and (vi) peek().*/
 
-#include<iostream>
+#include <iostream>
+#define max 5
 using namespace std;
 
-class Stack{
-    int *arr;
-    int size;
-    int topI;
-
+class stack{
+    int top;
+    int arr[max];
     public:
-     Stack(){
-        size=10;
-        arr= new int[size];
-        topI=-1;
-     }
-     bool isFull(){
-        if(topI == size-1){
-            cout<<endl<<"Stack is full"<<endl;
-            return true;
-            
+    stack(){
+        top=-1;
+    }
+    bool isempty(){
+        return(top==-1);
+    }
+    bool isfull(){
+        return(top==max-1);
+    }
+    void push(int n){
+        if(isfull()){
+            cout<<"STACK OVERFLOW"<<endl;
         }
-
-        return false;
-        
-     }
-     void push(int x){
-       if(isFull()) return;
-
-        topI++;
-        arr[topI]=x;
-        
+        else{
+            arr[++top]=n;
         }
-     bool isEmpty(){
-        if( topI == -1){
-            cout<<endl<<"Stack is empty"<<endl;
-            return true;
-            
+    }
+    void pop(){
+        if(isempty()){
+            cout<<"STACK UNDERFLOW"<<endl;
         }
-        return false;
-        
-     }
-     void pop(){
-        if(isEmpty()) return;
-
-        topI--;
-        
-     }
-
-     int peek(){
-        if(isEmpty()) return -1;
-
-        return arr[topI];
-       
-     }
-
-     void Display(){
-        if(isEmpty()) return;
-        cout<<"Stack is: ";
-        for(int i=topI; i>=0; i--){
-              cout<<"\t"<<arr[i];
+        else{
+            cout<<arr[top--]<<" popped from the stack"<<endl;
         }
-      
-     }
+    }
+    void display(){
+        if(isempty()){
+            cout<<"stack is empty"<<endl;
+        }
+        else{
+            for(int i = top;i>=0;i--){
+                cout<<arr[i]<<endl;
+            }
+        }
+    }
+    void peek(){
+        if(isempty()){
+            cout<<"stack is empty"<<endl;
+        }
+        else{
+            cout<<arr[top]<<endl;
+        }
+    }
 };
 
-
-int main(){
-    Stack st;
-    st.push(4);
-    st.push(7);
-    st.push(3);
-    st.push(2);
-    cout<<st.peek()<<endl;
-    st.pop();
-    st.Display();
-    st.pop();
-    cout<<st.isFull();
-    st.pop();
-    st.pop();
-    st.peek();
-    st.isEmpty();
-    
+int main() {
+    stack s;
+    if(s.isempty()){
+        cout<<"stack is empty"<<endl;
+    };
+    if(s.isfull()){
+        cout<<"stack is full"<<endl;
+    };
+    s.push(1);
+    s.push(2);
+    s.push(3);
+    s.push(4);
+    s.push(5);
+    s.push(6);
+    s.display();
+    s.peek();
+    s.pop();
+    s.pop();s.pop();s.pop();s.pop();
     return 0;
 }
