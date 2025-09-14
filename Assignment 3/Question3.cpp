@@ -1,59 +1,57 @@
-/*Write a program that checks if an expression has balanced parentheses.*/
-
+//Write a program that checks if an expression has balanced parentheses.
 #include<iostream>
 #include<stack>
 using namespace std;
-
-bool isBalanced(string &str) {
-        stack<char> st;
-        for (int i = 0; i < str.length(); i++) {
-            if (str[i] == '(' || str[i] == '[' || str[i] == '{') {
-                st.push(str[i]);
-            }
-
-            else {
-                if(st.empty()) return false;
-                
-                char ch = str[i];
-                if (ch == ')') {
-                    if (st.top() == '(') {
-                        st.pop();
-                    } else {
-                        return false;
-                    }
-                }
-
-                else if (ch == ']') {
-                    if (st.top() == '[') {
-                        st.pop();
-                    } else {
-                        return false;
-                    }
-                }
-
-                else if(ch == '}'){
-                    if (st.top() == '{') {
-                        st.pop();
-                    } else {
-                        return false;
-                    }
-                }
-            }
-
-            
+bool checkpar(string &s){
+    stack <char> st;
+    int n = s.length();
+    for(int i = 0;i<n;i++){
+        if (s[i]=='['||s[i]=='{'||s[i]=='('){
+            st.push(s[i]);
         }
-        if (st.size() != 0) return false;
-
-            return true;
+        else{
+            if(st.empty()){
+                return false;
+            }
+             else if(s[i]==')'){
+            if(st.top()=='('){
+                st.pop();
+            }
+            else {
+                return 0;
+            }
+        }
+        else if(s[i]=='}'){
+            if(st.top()=='{'){
+                st.pop();
+            }
+            else {
+                return 0;
+            }
+        }
+        else if(s[i]==']'){
+            if(st.top()=='['){
+                st.pop();
+            }
+            else {
+                return 0;
+            }
+        }
         
     }
-
-    int main(){
-        
-        string prt="()[{}()]";
-
-        cout<<"Are Parenthesis Balanced:  ";
-        string s= (isBalanced(prt)==1)? "Yes" : "No";
-        cout<<s;
-        return 0;
     }
+    if(st.size()!=0){
+        return false;
+    }
+    return 1;
+}
+int main(){
+    string s = "{()[]})";
+    if(checkpar(s)){
+        cout<<"BALANCED";
+    }
+    else{
+        cout<<"NOT BALANCED";
+    }
+    return 0;
+}
