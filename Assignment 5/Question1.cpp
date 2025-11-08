@@ -1,192 +1,154 @@
 #include<iostream>
 using namespace std;
-class node{
-    public:
-    int data;
-    node* next;
-    node(){
-        data = 0;
-        next = nullptr;
-    }
-    node(int data){
-        this->data = data;
-        this->next = nullptr;
-    }
+
+class Node {
+  public:
+  int data;
+  Node* next;
+  Node(){
+      next = NULL;
+      data = 0;
+  }
+  Node(int data){
+      this->data = data;
+      this->next = NULL;
+  }
 };
-class linkedlist(){
-    node* head;
+
+class LinkedList{
+    Node* head;
     public:
-    linkedlist(){
-        head = null;
+    LinkedList(){
+        head = NULL;
     }
-}
+    void insert_beg(int num);
+    void insert_end(int num);
+    void insert_between(int num,int a,int b);
+    void delete_beg();
+    void delete_end();
+    void delete_specific(int num);
+    void display_position(int num);
+    void display_all();
+};
 
-void insertbeg(int x){
-    node*n = new node;
-    n->next = head;
-    n->data = x;
-    head = n;
-}
-
-void insertend(int x){
-    node* n = new node();
-    n->data = x;
-    if(head==nullptr){
-        head = n;
+void LinkedList::insert_beg(int num){
+     Node* newnode = new Node();
+     newnode->next = head;
+     newnode->data = num;
+     head = newnode;
+     
+ }
+ 
+void LinkedList::insert_end(int num){
+    Node* newnode = new Node();
+    newnode->data = num;
+    if(head==NULL){
+        head = newnode;
         return;
     }
-    node* temp = head;
-
-    while(temp->next!=nullptr){
+    Node* temp = head;
+    while(temp->next!=NULL){
         temp = temp->next;
     }
-    temp->next = n;
-}
-void insertafter(int x,int value){
-    node* n = new node;
-    n->data = x;
-    if(head ==nullptr){
-        head = n;
-        return;
-    }
-    node* temp = head;
-    while(temp!=nullptr&&temp->data!=value){
-        temp = temp->next;
-    }
-    if(temp == nullptr){
-        cout<<"NO SUCH VALUE EXISTS"<<endl;
-    }
-    n->next = temp->next;
-    temp -> next = n;
+    temp->next = newnode;
     
 }
-void deletebeg(){
-    if(head==nullptr){
-        cout<<"LIST IS EMPTY"<<endl;
+
+void LinkedList::insert_between(int num,int a,int b){
+    Node* newnode = new Node(num);
+    Node* temp = head;
+    while(temp->data != a && temp->next->data != b){
+        temp = temp->next;
+    }
+    if(temp->data != a && temp->next->data != b){
+        cout<<"SUCH VALUES DOES NOT EXISTS";
         return;
     }
-    node* temp = head;
-    head = temp->next;
-    delete temp;
+    else{
+        newnode->next = temp->next;
+        temp->next = newnode;
+    }
 }
-void deleteend(){
-    if(head==nullptr){
-         cout<<"LIST IS EMPTY"<<endl;
+
+void LinkedList::delete_beg(){
+    if(head == NULL){
+        cout<<"LIST IS EMPTY";
+    }
+    else{
+        Node* temp = head;
+        head = temp->next;
+    }
+}
+
+void LinkedList::delete_end(){
+    if(head==NULL){
+        cout<<"LIST IS EMPTY";
         return;
     }
-    node* temp = head;
-    node* prev = nullptr;
-    while(temp->next!=nullptr){
+    Node* temp = head;
+    Node* prev = NULL;
+    while(temp->next != NULL){
         prev = temp;
         temp = temp->next;
     }
     if(temp == head){
-        head = nullptr;
-        delete temp;
-        return;
-    }
-    prev->next = nullptr;
-    delete temp;
-}
-void deletespecific(int value){
-    node* temp = head;
-    node* prev = temp;
-    if(head == nullptr){
-        cout<<"LIST IS EMPTY"<<endl;
-        return;
-    }
-    while(temp!=nullptr&&temp->data!=value){
-        prev = temp;
-        temp = temp->next; 
-    }
-    if(temp==nullptr){
-        cout<<"VALUE DOES NOT EXISTS"<<endl;
-        return;
-    }
-    if(temp==head){
-        head = head->next;
-    }
-    else if(temp->next==nullptr){
-        prev->next = nullptr;
+        head = NULL;
     }
     else{
-    prev->next=temp->next;
+        prev-> next = NULL;
     }
-    delete temp;
 }
-void search(int value){
-    node* temp = head;
-    int count = 1;
-    if(head==nullptr){
-        cout<<"LIST IS EMPTY"<<endl;
-        return ;
+
+void LinkedList::delete_specific(int num){
+    Node* temp = head;
+    Node* prev = NULL;
+    while(temp!= NULL&&temp->data!=num){
+        prev = temp;
+        temp=temp->next;
     }
-    while(temp->next!=nullptr&&temp->data==value){
+    if(temp==NULL){
+        cout<<"ELEMENT NOT PRESENT";
+        return;
+    }
+    else if(temp == head){
+        head = temp->next;
+        return;
+    }
+    else if(temp->next==NULL){
+        prev->next = NULL;
+    }
+    else{
+        prev->next = temp->next;
+    }
+}
+
+void LinkedList::display_position(int num){
+    int count = 1;
+    Node* temp = head;
+    while(temp->data!=num&&temp!=NULL){
         temp = temp->next;
         count++;
     }
-    if(temp->next==nullptr){
-        cout<<"VALUE DOES NOT EXISTS"<<endl;
+    if(temp==NULL){
+        cout<<"ELEMENT NOT PRESENT";
+        return;
     }
-    else
-    cout<< count<<endl;
+    cout<<"ELEMENT IS PRESENT AT "<<count<<endl;
 }
-void display(){
-    node* temp = head;
-    if(head==nullptr){
+
+void LinkedList::display_all(){
+    Node* temp = head;
+    if(temp == NULL){
         cout<<"LIST IS EMPTY"<<endl;
         return;
     }
-    while(temp!=nullptr){
-        cout<<temp->data;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
         temp = temp->next;
     }
 }
-int main() {
-    int choice, val, key;
-    do {
-        cout << "\nMenu:\n"
-             << "1. Insert at beginning\n"
-             << "2. Insert at end\n"
-             << "3. Insert after a value\n"
-             << "4. Delete from beginning\n"
-             << "5. Delete from end\n"
-             << "6. Delete a specific node\n"
-             << "7. Search a value\n"
-             << "8. Display list\n"
-             << "0. Exit\n"
-             << "Enter choice: ";
-        cin >> choice;
 
-        switch (choice) {
-            case 1:
-                cout << "Enter value: "; cin >> val;
-                insertbeg(val);
-                break;
-            case 2:
-                cout << "Enter value: "; cin >> val;
-                insertend(val);
-                break;
-            case 3:
-                cout << "Value to insert: "; cin >> val;
-                cout << "Insert before which key: "; cin >> key;
-                insertafter(key, val);
-                break;
-            case 4: deletebeg(); break;
-            case 5: deleteend(); break;
-            case 6:
-                cout << "Delete which value: "; cin >> key;
-                deletespecific(key);
-                break;
-            case 7:
-                cout << "Search value: "; cin >> key;
-                search(key);
-                break;
-            case 8: display(); break;
-            case 0: cout << "Exiting...\n"; break;
-            default: cout << "Invalid choice\n";
-        }
-    } while (choice != 0);
 
-    return 0;
+int main(){
+    LinkedList list;
 }
